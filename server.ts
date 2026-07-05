@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import { createServer as createViteServer } from "vite";
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";
+import { databaseService } from "./DatabaseService";
 
 // Load environment variables
 dotenv.config();
@@ -290,6 +291,16 @@ app.post("/api/contact", async (req, res) => {
 
     const [result]: any = await pool.query(query, values);
     
+    // Also save to leads table via DatabaseService if configured
+    if (databaseService.isEnvConfigured()) {
+      await databaseService.insertLead({
+        name: inquiry.brand_name,
+        email: inquiry.email,
+        phone: inquiry.phone_number,
+        message: inquiry.message || `Goal: ${inquiry.goal}. Budget: ${inquiry.budget_tier}. Appointment: ${inquiry.appointment_date} ${inquiry.appointment_time}`
+      }).catch(err => console.error("Failed to insert lead via DatabaseService in /api/contact:", err));
+    }
+    
     return res.json({
       success: true,
       savedToDb: true,
@@ -405,8 +416,55 @@ app.delete("/api/contact/:id", async (req, res) => {
   }
 });
 
+// Diagnostics endpoint for DatabaseView component
+app.get("/api/db/diagnostics", async (req, res) => {
+  const isConfigured = databaseService.isEnvConfigured();
+  if (!isConfigured) {
+    return res.json({
+      isConfigured: false,
+      connected: false,
+      leadsCount: 0,
+      message: "MySQL environment variables are not fully configured in the .env file."
+    });
+  }
+
+  try {
+    const connectionTest = await databaseService.testConnection();
+    // Also make sure table is initialized if connected
+    if (connectionTest.connected) {
+      await databaseService.verifyOrCreateLeadsTable();
+    }
+    const leadsCount = await databaseService.getLeadsCount();
+    return res.json({
+      isConfigured: true,
+      connected: connectionTest.connected,
+      leadsCount,
+      message: connectionTest.message
+    });
+  } catch (err: any) {
+    return res.json({
+      isConfigured: true,
+      connected: false,
+      leadsCount: 0,
+      message: err.message || "Diagnostics check failed."
+    });
+  }
+});
+
 // Vite & Static file serving integration
 async function startServer() {
+  // Automatically verify or create 'leads' table upon application initialization
+  try {
+    if (databaseService.isEnvConfigured()) {
+      console.log("DatabaseService: Initializing database on application start...");
+      await databaseService.verifyOrCreateLeadsTable();
+    } else {
+      console.log("DatabaseService: DB_HOST, DB_USER, or DB_NAME not configured. Skipping auto-table setup.");
+    }
+  } catch (err: any) {
+    console.error("DatabaseService: Auto-initialization error:", err.message);
+  }
+
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },
