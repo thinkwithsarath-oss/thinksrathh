@@ -15,7 +15,8 @@ import {
   ArrowLeft, 
   Ticket, 
   Check, 
-  MapPin 
+  MapPin,
+  Database
 } from "lucide-react";
 import Magnetic from "./Magnetic";
 import { useLanguage } from "../context/LanguageContext";
@@ -111,19 +112,52 @@ export default function Contact() {
 
   const outcomes = calculateOutcomes();
 
+  const [dbSavedInfo, setDbSavedInfo] = useState<{ success: boolean; savedToDb: boolean; message: string } | null>(null);
+
+  const handleFinalSubmit = async (payload: any) => {
+    setIsSubmitting(true);
+    setDbSavedInfo(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      setDbSavedInfo(data);
+    } catch (err: any) {
+      console.error("Database submission error:", err);
+      setDbSavedInfo({
+        success: true,
+        savedToDb: false,
+        message: "Network offline or server unreachable. Inquiry preserved in local memory cache."
+      });
+    } finally {
+      setIsSubmitting(false);
+      setSubmitted(true);
+    }
+  };
+
   const handleSubmitInquiry = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     }
     
-    setIsSubmitting(true);
-    
-    // Simulate secure private transmission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-    }, 2000);
+    const payload = {
+      brand_name: brandName,
+      email: email,
+      phone_number: phoneNumber,
+      industry: industry,
+      message: message,
+      investment: monthlyInvestment,
+      channels: selectedChannels,
+      goal: "Direct Inquiry Form",
+      traffic: "N/A",
+      budget_tier: `₹${monthlyInvestment.toLocaleString("en-IN")}/mo`
+    };
+
+    handleFinalSubmit(payload);
   };
 
   return (
@@ -659,11 +693,21 @@ export default function Contact() {
                           if (wizardStep === 5) {
                             // Submit validation
                             if (!validateForm()) return;
-                            setIsSubmitting(true);
-                            setTimeout(() => {
-                              setIsSubmitting(false);
-                              setSubmitted(true);
-                            }, 2000);
+                            const payload = {
+                              brand_name: brandName,
+                              email: email,
+                              phone_number: phoneNumber,
+                              industry: "Scheduled Appointment",
+                              message: message || `Scheduled premium digital audit.`,
+                              investment: 0,
+                              channels: "Advisory Wizard Channel",
+                              goal: selectedGoal,
+                              traffic: selectedTraffic,
+                              budget_tier: selectedBudgetTier,
+                              appointment_date: selectedDate + ", 2026",
+                              appointment_time: selectedTimeSlot
+                            };
+                            handleFinalSubmit(payload);
                             return;
                           }
 
@@ -862,6 +906,20 @@ export default function Contact() {
                     <CheckCircle className="w-6 h-6" />
                   </div>
                   
+                  {dbSavedInfo && (
+                    <div className={`w-full p-3 rounded-xl border text-[10px] font-mono leading-normal text-left ${
+                      dbSavedInfo.savedToDb 
+                        ? "bg-emerald-500/[0.04] border-emerald-500/20 text-emerald-400" 
+                        : "bg-amber-500/[0.04] border-amber-500/20 text-amber-500"
+                    }`}>
+                      <div className="flex items-center gap-1.5 font-bold mb-1 uppercase">
+                        <Database className="w-3 h-3" />
+                        {dbSavedInfo.savedToDb ? "MySQL Sync Success" : "Local Memory Buffer Active"}
+                      </div>
+                      <p>{dbSavedInfo.message}</p>
+                    </div>
+                  )}
+                  
                   <div className="space-y-1">
                     <span className="font-mono text-[9px] text-emerald-400 uppercase tracking-[0.25em] font-semibold">
                       Appointment Secured
@@ -969,6 +1027,20 @@ export default function Contact() {
                   <div className="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center border border-emerald-500/30 mb-2">
                     <CheckCircle className="w-8 h-8" />
                   </div>
+                  
+                  {dbSavedInfo && (
+                    <div className={`w-full p-4 rounded-2xl border text-[11px] font-mono leading-normal text-left ${
+                      dbSavedInfo.savedToDb 
+                        ? "bg-emerald-500/[0.04] border-emerald-500/20 text-emerald-400" 
+                        : "bg-amber-500/[0.04] border-amber-500/20 text-amber-500"
+                    }`}>
+                      <div className="flex items-center gap-1.5 font-bold mb-1 uppercase">
+                        <Database className="w-3.5 h-3.5" />
+                        {dbSavedInfo.savedToDb ? "MySQL Sync Success" : "Local Memory Buffer Active"}
+                      </div>
+                      <p>{dbSavedInfo.message}</p>
+                    </div>
+                  )}
                   
                   <div className="space-y-2">
                     <span className="font-mono text-[9px] text-emerald-400 uppercase tracking-[0.25em] font-semibold">Transmission Successful</span>

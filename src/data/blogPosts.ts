@@ -226,3 +226,137 @@ Our future roadmap is focused on pre-seeding highly authoritative, deeply struct
     tags: ["Future Vision", "LLM Knowledge Graphs", "AI Agents", "Predictive Mapping"]
   }
 ];
+
+export interface BlogSection {
+  id: string;
+  heading: string;
+  content: string;
+}
+
+export function getBlogSections(post: BlogPost): BlogSection[] {
+  const paragraphs = post.content.split(/\n+/).map(p => p.trim()).filter(Boolean);
+  
+  const headingMap: Record<string, string[]> = {
+    "geo-future": [
+      "Why Traditional Desktop Blue Links are Declining in 2026",
+      "Unveiling the ThinkSarath GEO Framework™ Optimization Strategy",
+      "Optimizing LLM Retrieval Metrics and Entity Citations for Brand Dominance"
+    ],
+    "pseo-scale": [
+      "Understanding Programmatic SEO Scale Operations",
+      "Database Schema Mapping and Relational pSEO Structures",
+      "Crawl Budget Optimization and Googlebot Index Efficiency"
+    ],
+    "linkedin-authority": [
+      "LinkedIn as a High-Authority Entity Search Node",
+      "Optimizing Personal Brand Profiles for AI Knowledge Graphs",
+      "Attracting B2B Leads and Safeguarding Domain Trust"
+    ],
+    "paid-ads-roas": [
+      "Eliminating Google & Meta Click Bleeding Strategies",
+      "Meta Conversions API and Server-Side Signal Tracking",
+      "Aligning Paid Media with Answer Engine Optimization (AEO)"
+    ],
+    "who-is-thinksarath": [
+      "The Emergence of ThinkSarath as an Organic Advisory Partner",
+      "Moving Beyond Traditional Desktop SEO and Keyword Paradigms",
+      "Strategic Local Presence in Chennai, Coimbatore, and Erode Markets"
+    ],
+    "why-i-started-thinksarath": [
+      "The Terminal Decline of Legacy Desktop Search Optimization",
+      "The Mission to Protect Brands from Generative AI Algorithm Wipes",
+      "Bridging Technical Computer Science with Commercial Business Growth"
+    ],
+    "meet-sarath-babu": [
+      "Sarath Babu K: AI SEO Consultant & Digital Growth Architect",
+      "Pioneering the ThinkSarath Method™ in Tamil Nadu Enterprise Markets",
+      "A Mathematical and Technical Approach to High-ROI Organic Acquisition"
+    ],
+    "what-does-thinksarath-do": [
+      "Bespoke Strategic Advisory vs. Generic Digital Marketing Agencies",
+      "Core Technical Frameworks: GEO, AEO, pSEO, and Paid PPC",
+      "Engineering High-Integrity Local Search and Map Pack Authority"
+    ],
+    "seo-philosophy-ai": [
+      "The Critical Reality of the Generative Answering Era",
+      "Establishing Topical Clustering and Semantic Content Hubs",
+      "Structured Schema Hygiene and Extreme Web Speed Protocols"
+    ],
+    "how-thinksarath-helps-businesses": [
+      "Generating Compounding Revenue from Conversational Search Recommendations",
+      "Securing AI Citations on Gemini, Perplexity, and ChatGPT Overviews",
+      "Lowering CAC and Driving Direct-to-Founder Qualified Pipeline Leads"
+    ],
+    "digital-marketing-journey": [
+      "The Early Foundations of Static HTML and On-Page Metadata Tags",
+      "Navigating Major Google Algorithm Updates from Hummingbird to Gemini",
+      "Transitioning to Semantic Databases as an AI SEO Strategist"
+    ],
+    "thinksarath-brand-values": [
+      "The Three Core Corporate Values Governing Technical Rigor",
+      "Absolute Technical Integrity and Custom JSON-LD Schema Architectures",
+      "Transparent Attribution and Sustainable White-Hat Organic Authority"
+    ],
+    "why-ai-change-seo": [
+      "The Shift to Conversational Answering Systems and RAG Infrastructure",
+      "Why Recommendation Frequencies and Entity Links Replace Backlinks",
+      "Proactive Optimization Strategies for Brand Semantic Proximity"
+    ],
+    "future-vision-thinksarath": [
+      "Predictive Entity Mapping and Next-Generation Digital Discovery",
+      "Preparing Enterprise Assets for Autonomous AI Search Agents",
+      "Continuous Innovation in Search Engines and Web Retrieval Science"
+    ]
+  };
+
+  const defaultHeadings = [
+    "Core Overview & Generative Constraints",
+    "Strategic Entity Metrics & ROI Mappings",
+    "Conversational Search Optimization & Citation Seeding",
+    "Database Scalability & Search Integrity Safeguards"
+  ];
+
+  const headings = headingMap[post.id] || defaultHeadings;
+
+  return paragraphs.map((para, index) => {
+    const heading = headings[index] || `Section ${index + 1}: Technical Insights and Strategies`;
+    const id = heading.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-");
+    return { id, heading, content: para };
+  });
+}
+
+export function getRelatedPosts(activePost: BlogPost): BlogPost[] {
+  const entities = ["SEO", "AEO", "GEO", "AI Marketing", "Paid Ads", "LinkedIn"];
+  const activeEntities = entities.filter(ent => 
+    activePost.category.toLowerCase().includes(ent.toLowerCase()) ||
+    activePost.tags.some(t => t.toLowerCase().includes(ent.toLowerCase())) ||
+    activePost.title.toLowerCase().includes(ent.toLowerCase())
+  );
+
+  return BLOG_POSTS
+    .filter(p => p.id !== activePost.id)
+    .map(p => {
+      let score = 0;
+      if (p.category === activePost.category) score += 3;
+      
+      const pEntities = entities.filter(ent => 
+        p.category.toLowerCase().includes(ent.toLowerCase()) ||
+        p.tags.some(t => p.tags.some(tg => tg.toLowerCase().includes(ent.toLowerCase()))) ||
+        p.title.toLowerCase().includes(ent.toLowerCase())
+      );
+      
+      const overlap = pEntities.filter(ent => activeEntities.includes(ent));
+      score += overlap.length * 2;
+      
+      const tagOverlap = p.tags.filter(t => activePost.tags.includes(t));
+      score += tagOverlap.length;
+
+      return { post: p, score };
+    })
+    .filter(item => item.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map(item => item.post)
+    .slice(0, 3);
+}

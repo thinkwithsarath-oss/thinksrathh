@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, MapPin, Globe, Sparkles, Moon, Sun } from "lucide-react";
+import { Menu, X, MapPin, Globe, Sparkles, Moon, Sun, Database } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
@@ -14,7 +14,7 @@ export default function Header() {
 
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
-  const { currentPage, setCurrentPage } = useNavigation();
+  const { currentPage, setCurrentPage, isDatabaseModalOpen, setIsDatabaseModalOpen } = useNavigation();
 
   // Track scroll state for glassmorphism and progress bar
   useEffect(() => {
@@ -174,6 +174,17 @@ export default function Header() {
               </button>
             </div>
 
+            {/* Live Database Integration Panel */}
+            <button
+              id="db-toggle-btn"
+              onClick={() => setIsDatabaseModalOpen(true)}
+              className="p-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 hover:border-emerald-500/40 hover:bg-emerald-500/10 transition-all cursor-pointer flex items-center justify-center"
+              title="Database Manager & Real-Time Sync"
+              aria-label="Configure Database"
+            >
+              <Database className="w-3.5 h-3.5 animate-pulse" />
+            </button>
+
             {/* Persistent Theme Toggle */}
             <button
               id="theme-toggle-btn"
@@ -273,6 +284,18 @@ export default function Header() {
                     தமிழ்
                   </button>
                 </div>
+                <button
+                  id="mobile-db-toggle-btn"
+                  onClick={() => {
+                    setIsDatabaseModalOpen(true);
+                    setIsOpen(false);
+                  }}
+                  className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 flex items-center justify-center transition-all cursor-pointer"
+                  aria-label="Configure Database"
+                >
+                  <Database className="w-4 h-4 animate-pulse" />
+                </button>
+
                 <button
                   id="mobile-theme-toggle-btn"
                   onClick={toggleTheme}

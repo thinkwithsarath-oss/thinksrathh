@@ -1,22 +1,259 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Search, Calendar, User, Clock, ArrowRight, Sparkles, BookOpen, Tag, Code, Send, RefreshCw, Layers } from "lucide-react";
+import { Search, Calendar, User, Clock, ArrowRight, ArrowLeft, Sparkles, BookOpen, Tag, Code, Send, RefreshCw, Layers } from "lucide-react";
 import ElectricBorder from "./ElectricBorder";
 import { useNavigation } from "../context/NavigationContext";
 
-import { BLOG_POSTS, BlogPost } from "../data/blogPosts";
+import { BLOG_POSTS, BlogPost, getBlogSections, getRelatedPosts } from "../data/blogPosts";
 
 export default function Blog() {
   const { setCurrentPage, activeBlogPostId, setActiveBlogPostId } = useNavigation();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   
-  const activePost = BLOG_POSTS.find(p => p.id === activeBlogPostId) || null;
-
   // AI Generator Simulator State
   const [generatorInput, setGeneratorInput] = useState("");
   const [generatedDraft, setGeneratedDraft] = useState<any | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  
+  const activePost = BLOG_POSTS.find(p => p.id === activeBlogPostId) || null;
+
+  if (activePost) {
+    return (
+      <div className="py-28 px-6 md:px-12 max-w-7xl mx-auto space-y-12 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-300 animate-fadeIn">
+        {/* Back Button */}
+        <div className="flex items-center justify-start">
+          <button 
+            onClick={() => {
+              setActiveBlogPostId(null);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="group font-mono text-xs text-emerald-500 hover:text-emerald-600 font-bold flex items-center gap-2 transition-colors cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" /> BACK TO ALL GUIDES
+          </button>
+        </div>
+
+        {/* Title & Metadata */}
+        <div className="space-y-4">
+          <span className="font-mono text-[9px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full uppercase tracking-widest border border-emerald-500/20">
+            {activePost.category}
+          </span>
+          <h1 className="font-serif text-3xl md:text-5xl font-normal leading-tight text-zinc-900 dark:text-white">
+            {activePost.title}
+          </h1>
+          <div className="flex items-center gap-4 font-mono text-[10px] text-zinc-400">
+            <span>BY {activePost.author}</span>
+            <span>•</span>
+            <span>{activePost.date}</span>
+            <span>•</span>
+            <span>{activePost.readTime}</span>
+          </div>
+        </div>
+
+        {/* Main content grids */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pt-6 border-t border-zinc-200/60 dark:border-zinc-900">
+          {/* Main article body column */}
+          <div className="lg:col-span-8 space-y-8">
+            
+            {/* A. ThinkSarath AI SEO Framework™ Section (Cornerstone Links) */}
+            <section className="bg-emerald-500/[0.04] dark:bg-emerald-500/[0.02] border border-emerald-500/20 rounded-2xl p-5 text-zinc-800 dark:text-zinc-200" aria-label="ThinkSarath AI SEO Framework">
+              <div className="flex items-center gap-2 mb-2.5">
+                <Layers className="w-4 h-4 text-emerald-500 animate-pulse" />
+                <h3 className="font-sans text-xs font-bold tracking-wider text-zinc-900 dark:text-emerald-400 uppercase">
+                  ThinkSarath AI SEO Framework™
+                </h3>
+              </div>
+              <p className="font-serif text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed font-light mb-3">
+                This dynamic guide serves as a key informational node of the proprietary <strong>ThinkSarath Method™</strong>. Achieving permanent search dominance across ChatGPT, Gemini, and Google Search Overviews requires integrating deep on-page entity links with database-backed scaling schemas.
+              </p>
+              <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] font-mono border-t border-emerald-500/10 pt-2.5">
+                <span className="text-zinc-400">Cornerstone Hubs:</span>
+                <button 
+                  onClick={() => { setActiveBlogPostId(null); setCurrentPage("about"); }}
+                  className="text-emerald-500 hover:underline cursor-pointer bg-transparent border-none p-0 font-semibold"
+                >
+                  About &amp; Biography &rarr;
+                </button>
+                <button 
+                  onClick={() => { setActiveBlogPostId(null); setCurrentPage("services"); }}
+                  className="text-emerald-500 hover:underline cursor-pointer bg-transparent border-none p-0 font-semibold"
+                >
+                  Bespoke Services &rarr;
+                </button>
+                <button 
+                  onClick={() => { setActiveBlogPostId(null); setCurrentPage("frameworks"); }}
+                  className="text-emerald-500 hover:underline cursor-pointer bg-transparent border-none p-0 font-semibold"
+                >
+                  Proprietary Method™ &rarr;
+                </button>
+              </nav>
+            </section>
+
+            {/* B. Table of Contents with smooth scroll & optimized anchor keywords */}
+            <nav className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/30 border border-zinc-200/40 dark:border-zinc-900 space-y-3" aria-label="Table of contents">
+              <div className="flex items-center gap-2">
+                <Tag className="w-3.5 h-3.5 text-emerald-500" />
+                <h3 className="font-sans text-xs font-bold tracking-widest text-zinc-900 dark:text-zinc-200 uppercase">
+                  Table of Contents
+                </h3>
+              </div>
+              <ul className="space-y-2.5 pt-1 font-serif text-[13px]">
+                {getBlogSections(activePost).map((sect, sIdx) => (
+                  <li key={sect.id} className="group flex items-start gap-2">
+                    <span className="font-mono text-[9px] text-emerald-500 font-bold pt-0.5">
+                      0{sIdx + 1}
+                    </span>
+                    <a 
+                      href={`#${sect.id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const targetEl = document.getElementById(sect.id);
+                        if (targetEl) {
+                          targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }
+                      }}
+                      className="text-zinc-600 dark:text-zinc-400 hover:text-emerald-500 dark:hover:text-emerald-400 hover:underline transition-colors leading-snug"
+                    >
+                      {sect.heading}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* C. Long-form Post Content sections using semantic HTML5 tags */}
+            <div className="prose prose-zinc dark:prose-invert max-w-none space-y-8">
+              {getBlogSections(activePost).map((sect) => (
+                <section key={sect.id} id={sect.id} className="space-y-3.5 scroll-mt-20">
+                  <h2 className="font-serif text-xl md:text-2xl font-semibold text-zinc-900 dark:text-white leading-snug">
+                    {sect.heading}
+                  </h2>
+                  <p className="font-serif text-base text-zinc-600 dark:text-zinc-300 leading-relaxed font-light whitespace-pre-line">
+                    {sect.content}
+                  </p>
+                </section>
+              ))}
+              <section className="pt-2 font-serif text-base text-zinc-600 dark:text-zinc-300 leading-relaxed font-light">
+                Maintaining structural relevance ensures Google, Bing, and AI crawlers map your entity seamlessly. Our methodologies are engineered around actual crawler behaviors, protecting search assets from sudden indexing wipes.
+              </section>
+            </div>
+
+            {/* D. Premium Author Bio Card */}
+            <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200/50 dark:border-zinc-900 flex flex-col md:flex-row gap-5 items-start">
+              <div className="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-mono text-lg font-bold shrink-0 border border-emerald-500/20">
+                SB
+              </div>
+              <div className="space-y-3">
+                <div className="space-y-1">
+                  <h4 className="font-serif text-base font-semibold text-zinc-900 dark:text-white">Sarath Babu K</h4>
+                  <p className="font-mono text-[10px] text-emerald-500 uppercase tracking-widest font-semibold">Founder of ThinkSarath</p>
+                </div>
+                <p className="font-serif text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-light">
+                  Sarath Babu K is an AI SEO Consultant, digital marketer, and educator. He specializes in Generative Engine Optimization (GEO), Answer Engine Optimization (AEO), and programmatic scaling strategies (pSEO). Through bespoke advising and proprietary methodologies, he connects commercial websites with high-intent audiences on next-generation search systems.
+                </p>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-1 font-mono text-[10px]">
+                  <span className="text-zinc-400">Explore Cornerstone Hubs:</span>
+                  <button 
+                    onClick={() => { setActiveBlogPostId(null); setCurrentPage("about"); }}
+                    className="text-emerald-500 hover:underline cursor-pointer bg-transparent border-none p-0 font-semibold"
+                  >
+                    About Sarath &rarr;
+                  </button>
+                  <button 
+                    onClick={() => { setActiveBlogPostId(null); setCurrentPage("services"); }}
+                    className="text-emerald-500 hover:underline cursor-pointer bg-transparent border-none p-0 font-semibold"
+                  >
+                    Bespoke Services &rarr;
+                  </button>
+                  <button 
+                    onClick={() => { setActiveBlogPostId(null); setCurrentPage("frameworks"); }}
+                    className="text-emerald-500 hover:underline cursor-pointer bg-transparent border-none p-0 font-semibold"
+                  >
+                    Proprietary Method™ &rarr;
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* E. Tags list */}
+            <div className="pt-6 border-t border-zinc-200 dark:border-zinc-900 flex flex-wrap gap-2">
+              {activePost.tags.map(t => (
+                <span key={t} className="font-mono text-[10px] px-3 py-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/50 dark:border-zinc-900 text-zinc-500 rounded">
+                  #{t}
+                </span>
+              ))}
+            </div>
+
+          </div>
+
+          {/* Sidebar Column: Semantic Topic Cluster Widget */}
+          <div className="lg:col-span-4 lg:sticky lg:top-4 h-fit space-y-6">
+            
+            <aside className="space-y-6" aria-label="Semantic Topic Cluster">
+              <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/30 border border-zinc-200/40 dark:border-zinc-900 space-y-4">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-emerald-500 animate-pulse" />
+                  <h3 className="font-sans text-xs font-bold tracking-widest text-zinc-900 dark:text-zinc-200 uppercase">
+                    Semantic Topic Clusters
+                  </h3>
+                </div>
+                <p className="font-serif text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed font-light">
+                  Explore related research threads targeting core entities (SEO, AEO, GEO, &amp; AI Marketing) to expand your topical coverage index.
+                </p>
+
+                <div className="space-y-3 pt-2">
+                  {getRelatedPosts(activePost).map(rp => (
+                    <div 
+                      key={rp.id}
+                      onClick={() => {
+                        setActiveBlogPostId(rp.id);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
+                      className="group p-3.5 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-200/60 dark:border-zinc-900 hover:border-emerald-500/30 dark:hover:border-emerald-500/20 transition-all cursor-pointer space-y-1.5"
+                    >
+                      <span className="font-mono text-[8px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded uppercase font-semibold">
+                        {rp.category}
+                      </span>
+                      <h4 className="font-serif text-xs font-semibold text-zinc-800 dark:text-zinc-200 group-hover:text-emerald-500 transition-colors line-clamp-2 leading-snug">
+                        {rp.title}
+                      </h4>
+                      <p className="font-serif text-[10px] text-zinc-500 dark:text-zinc-400 line-clamp-1 font-light">
+                        {rp.excerpt}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Entity Knowledge Graph Badges / Visualizer */}
+              <div className="p-5 rounded-2xl bg-zinc-900 text-white border border-zinc-800 space-y-3 font-mono text-[10px]">
+                <div className="flex items-center gap-1.5 border-b border-zinc-800 pb-2">
+                  <Code className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="text-zinc-400 font-semibold tracking-wider">ENTITY METRIC GRAPH</span>
+                </div>
+                <div className="space-y-1.5 text-zinc-400">
+                  <div className="flex justify-between">
+                    <span>Verified Entity Node:</span>
+                    <span className="text-emerald-400">ThinkSarath</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Associated Authority:</span>
+                    <span className="text-zinc-100">Sarath Babu K</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Entity Overlap Index:</span>
+                    <span className="text-zinc-100">0.94 (Optimal)</span>
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const posts: BlogPost[] = BLOG_POSTS;
 
@@ -26,7 +263,7 @@ export default function Blog() {
     setGeneratedDraft(null);
 
     setTimeout(() => {
-      setGeneratedDraft({
+      const newDraft = {
         title: `Comprehensive SEO Blueprint: ${generatorInput}`,
         targetKeywords: [
           `${generatorInput} services`,
@@ -45,8 +282,28 @@ export default function Blog() {
           "3. Advanced AI Overviews (AEO) Citation Seeding",
           "4. Relational Database Scalability Blueprint"
         ]
-      });
+      };
+
+      setGeneratedDraft(newDraft);
       setIsGenerating(false);
+
+      // Save to MySQL database via full-stack API
+      const draftPayload = {
+        title: newDraft.title,
+        category: "AI SEO Strategy Blueprint",
+        prompt: generatorInput,
+        content: `Target Keywords: ${newDraft.targetKeywords.join(", ")}\n\nGEO Entity Tags: ${newDraft.entityTags.join(", ")}\n\nTaxonomy: ${newDraft.pSEOTaxonomy.slugStructure}\n\nOutline:\n${newDraft.suggestedOutline.join("\n")}`
+      };
+
+      fetch("/api/drafts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(draftPayload)
+      })
+      .then(res => res.json())
+      .then(data => console.log("Blueprint draft persisted:", data))
+      .catch(err => console.error("Failed to save blueprint draft:", err));
+
     }, 2000);
   };
 
@@ -291,98 +548,6 @@ export default function Blog() {
           )}
         </div>
       </section>
-
-      {/* Modal / Overlay for full blog article reading */}
-      <AnimatePresence>
-        {activePost && (
-          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6" id="blog-modal">
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-900 w-full max-w-3xl rounded-3xl p-8 md:p-10 max-h-[85vh] overflow-y-auto space-y-6 relative"
-            >
-              <button 
-                onClick={() => setActiveBlogPostId(null)}
-                className="absolute top-6 right-6 p-2 rounded-full border border-zinc-200 dark:border-zinc-950 text-zinc-400 hover:text-zinc-900 dark:hover:text-white cursor-pointer transition-colors"
-              >
-                ✕
-              </button>
-
-              <div className="space-y-4">
-                <span className="font-mono text-[9px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full uppercase tracking-widest border border-emerald-500/20">
-                  {activePost.category}
-                </span>
-                <h1 className="font-serif text-3xl md:text-4xl font-normal leading-tight text-zinc-900 dark:text-white">
-                  {activePost.title}
-                </h1>
-                <div className="flex items-center gap-4 font-mono text-[10px] text-zinc-400">
-                  <span>BY {activePost.author}</span>
-                  <span>•</span>
-                  <span>{activePost.date}</span>
-                  <span>•</span>
-                  <span>{activePost.readTime}</span>
-                </div>
-              </div>
-
-              <div className="prose prose-zinc dark:prose-invert max-w-none pt-4 border-t border-zinc-200/60 dark:border-zinc-900">
-                <p className="font-serif text-base text-zinc-600 dark:text-zinc-300 leading-relaxed font-light whitespace-pre-line">
-                  {activePost.content}
-                </p>
-                <p className="font-serif text-base text-zinc-600 dark:text-zinc-300 leading-relaxed font-light mt-4">
-                  Maintaining structural relevance ensures Google, Bing, and AI crawlers map your entity seamlessly. Our methodologies are engineered around actual crawler behaviors, protecting search assets from sudden indexing wipes.
-                </p>
-              </div>
-
-              {/* Premium Author Bio Card */}
-              <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200/50 dark:border-zinc-900 flex flex-col md:flex-row gap-5 items-start">
-                <div className="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-mono text-lg font-bold shrink-0 border border-emerald-500/20">
-                  SB
-                </div>
-                <div className="space-y-3">
-                  <div className="space-y-1">
-                    <h4 className="font-serif text-base font-semibold text-zinc-900 dark:text-white">Sarath Babu K</h4>
-                    <p className="font-mono text-[10px] text-emerald-500 uppercase tracking-widest font-semibold">Founder of ThinkSarath</p>
-                  </div>
-                  <p className="font-serif text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-light">
-                    Sarath Babu K is an AI SEO Consultant, digital marketer, and educator. He specializes in Generative Engine Optimization (GEO), Answer Engine Optimization (AEO), and programmatic scaling strategies (pSEO). Through bespoke advising and proprietary methodologies, he connects commercial websites with high-intent audiences on next-generation search systems.
-                  </p>
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-1 font-mono text-[10px]">
-                    <span className="text-zinc-400">Explore Cornerstone Hubs:</span>
-                    <button 
-                      onClick={() => { setActiveBlogPostId(null); setCurrentPage("about"); }}
-                      className="text-emerald-500 hover:underline cursor-pointer bg-transparent border-none p-0 font-semibold"
-                    >
-                      About Sarath &rarr;
-                    </button>
-                    <button 
-                      onClick={() => { setActiveBlogPostId(null); setCurrentPage("services"); }}
-                      className="text-emerald-500 hover:underline cursor-pointer bg-transparent border-none p-0 font-semibold"
-                    >
-                      Bespoke Services &rarr;
-                    </button>
-                    <button 
-                      onClick={() => { setActiveBlogPostId(null); setCurrentPage("frameworks"); }}
-                      className="text-emerald-500 hover:underline cursor-pointer bg-transparent border-none p-0 font-semibold"
-                    >
-                      Proprietary Method™ &rarr;
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-6 border-t border-zinc-200 dark:border-zinc-950 flex flex-wrap gap-2">
-                {activePost.tags.map(t => (
-                  <span key={t} className="font-mono text-[10px] px-3 py-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/50 dark:border-zinc-900 text-zinc-500 rounded">
-                    #{t}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
     </div>
   );
 }

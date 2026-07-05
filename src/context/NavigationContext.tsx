@@ -7,11 +7,14 @@ interface NavigationContextType {
   setCurrentPage: (page: PageType) => void;
   activeBlogPostId: string | null;
   setActiveBlogPostId: (id: string | null) => void;
+  isDatabaseModalOpen: boolean;
+  setIsDatabaseModalOpen: (open: boolean) => void;
 }
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
 export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isDatabaseModalOpen, setIsDatabaseModalOpen] = useState(false);
   const [currentPage, setCurrentPageState] = useState<PageType>(() => {
     const path = window.location.pathname.replace(/^\/|\/$/g, "");
     if (path.startsWith("blog")) return "blog";
@@ -83,7 +86,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   }, []);
 
   return (
-    <NavigationContext.Provider value={{ currentPage, setCurrentPage, activeBlogPostId, setActiveBlogPostId }}>
+    <NavigationContext.Provider value={{ currentPage, setCurrentPage, activeBlogPostId, setActiveBlogPostId, isDatabaseModalOpen, setIsDatabaseModalOpen }}>
       {children}
     </NavigationContext.Provider>
   );

@@ -319,10 +319,19 @@ export default function SEOManager() {
                 "@id": `${window.location.origin}/blog/${activePost.id}#posting`,
                 "headline": activePost.title,
                 "datePublished": activePost.date,
-                "author": { "@id": `${window.location.origin}/#person-sarath` },
+                "author": {
+                  "@type": "Person",
+                  "name": "Sarath Babu K",
+                  "@id": `${window.location.origin}/#person-sarath`
+                },
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "ThinkSarath",
+                  "@id": `${window.location.origin}/#org-thinksarath`,
+                  "logo": `${window.location.origin}/icon-512.png`
+                },
                 "description": activePost.excerpt,
                 "url": `${window.location.origin}/blog/${activePost.id}`,
-                "publisher": { "@id": `${window.location.origin}/#org-thinksarath` },
                 "mainEntityOfPage": `${window.location.origin}/blog/${activePost.id}`
               }
             ];
@@ -335,12 +344,27 @@ export default function SEOManager() {
                 "@id": `${window.location.origin}/#blog-hub`,
                 "name": "ThinkSarath Digest",
                 "description": "Technical insights on modern AI search patterns, GEO entity schema, WordPress, and pSEO.",
-                "publisher": { "@id": `${window.location.origin}/#org-thinksarath` },
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "ThinkSarath",
+                  "@id": `${window.location.origin}/#org-thinksarath`,
+                  "logo": `${window.location.origin}/icon-512.png`
+                },
                 "blogPost": BLOG_POSTS.map(post => ({
                   "@type": "BlogPosting",
                   "headline": post.title,
                   "datePublished": post.date,
-                  "author": { "@id": `${window.location.origin}/#person-sarath` },
+                  "author": {
+                    "@type": "Person",
+                    "name": "Sarath Babu K",
+                    "@id": `${window.location.origin}/#person-sarath`
+                  },
+                  "publisher": {
+                    "@type": "Organization",
+                    "name": "ThinkSarath",
+                    "@id": `${window.location.origin}/#org-thinksarath`,
+                    "logo": `${window.location.origin}/icon-512.png`
+                  },
                   "description": post.excerpt,
                   "url": `${window.location.origin}/blog/${post.id}`
                 }))
