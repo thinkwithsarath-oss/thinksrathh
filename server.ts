@@ -263,6 +263,36 @@ app.post("/api/contact", async (req, res) => {
     created_at: new Date()
   };
 
+  // Formspree Integration: Send lead collection to Formspree
+  try {
+    console.log("DatabaseService: Forwarding lead data to Formspree endpoint...");
+    await fetch("https://formspree.io/f/xgojqqqj", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        brand_name: inquiry.brand_name,
+        email: inquiry.email,
+        phone_number: inquiry.phone_number,
+        industry: inquiry.industry,
+        message: inquiry.message,
+        investment: inquiry.investment,
+        channels: inquiry.channels,
+        goal: inquiry.goal,
+        traffic: inquiry.traffic,
+        budget_tier: inquiry.budget_tier,
+        appointment_date: inquiry.appointment_date,
+        appointment_time: inquiry.appointment_time,
+        source_url: req.headers.referer || "ThinkSarath App"
+      })
+    });
+    console.log("DatabaseService: Lead data successfully delivered to Formspree.");
+  } catch (formspreeErr: any) {
+    console.error("DatabaseService: Error forwarding lead to Formspree:", formspreeErr.message);
+  }
+
   try {
     const pool = await getPool();
     await ensureTablesExist(pool);
@@ -434,7 +464,7 @@ app.get("/api/db/diagnostics", async (req, res) => {
     if (connectionTest.connected) {
       await databaseService.verifyOrCreateLeadsTable();
     }
-    const leadsCount = await databaseService.getLeadsCount();
+    const leadsCount = connectionTest.connected ? await databaseService.getLeadsCount() : 0;
     return res.json({
       isConfigured: true,
       connected: connectionTest.connected,
@@ -453,11 +483,16 @@ app.get("/api/db/diagnostics", async (req, res) => {
 
 // Vite & Static file serving integration
 async function startServer() {
-  // Automatically verify or create 'leads' table upon application initialization
+  // Automatically verify or create 'leads' table upon application initialization safely
   try {
     if (databaseService.isEnvConfigured()) {
       console.log("DatabaseService: Initializing database on application start...");
-      await databaseService.verifyOrCreateLeadsTable();
+      const dbTest = await databaseService.testConnection();
+      if (dbTest.connected) {
+        await databaseService.verifyOrCreateLeadsTable();
+      } else {
+        console.warn("DatabaseService: Database configured but not reachable. Skipping auto-table setup:", dbTest.message);
+      }
     } else {
       console.log("DatabaseService: DB_HOST, DB_USER, or DB_NAME not configured. Skipping auto-table setup.");
     }

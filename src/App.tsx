@@ -18,7 +18,6 @@ import Blog from "./components/Blog";
 import FAQ from "./components/FAQ";
 import Frameworks from "./components/Frameworks";
 import DatabaseModal from "./components/DatabaseModal";
-import DatabaseView from "./components/DatabaseView";
 import { useNavigation } from "./context/NavigationContext";
 import { TESTIMONIALS } from "./data";
 import { Quote, Sparkles, Shield, BookmarkCheck } from "lucide-react";
@@ -132,9 +131,6 @@ export default function App() {
       <main className="relative">
         {renderContent()}
       </main>
-
-      {/* Database Diagnostics Panel (renders only if DB env is configured) */}
-      <DatabaseView />
 
       {/* 8. Minimalist Spacious Footer */}
       <Footer />

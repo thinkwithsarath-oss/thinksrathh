@@ -28,11 +28,11 @@ export default function ServicesPage() {
     
     // Calculate base rate per selected channel depending on business tier
     calcChannels.forEach(ch => {
-      if (ch === "seo") basePrice += calcTier === "professional" ? 25000 : calcTier === "growth" ? 75000 : 150000;
-      else if (ch === "aeo" || ch === "geo") basePrice += calcTier === "professional" ? 30000 : calcTier === "growth" ? 85000 : 180000;
-      else if (ch === "webdev") basePrice += calcTier === "professional" ? 50000 : calcTier === "growth" ? 120000 : 300000;
-      else if (ch === "gads" || ch === "meta") basePrice += calcTier === "professional" ? 20000 : calcTier === "growth" ? 60000 : 120000;
-      else basePrice += calcTier === "professional" ? 25000 : calcTier === "growth" ? 50000 : 100000;
+      if (ch === "seo") basePrice += calcTier === "professional" ? 5000 : calcTier === "growth" ? 75000 : 150000;
+      else if (ch === "aeo" || ch === "geo") basePrice += calcTier === "professional" ? 8000 : calcTier === "growth" ? 85000 : 180000;
+      else if (ch === "webdev") basePrice += calcTier === "professional" ? 15000 : calcTier === "growth" ? 120000 : 300000;
+      else if (ch === "gads" || ch === "meta") basePrice += calcTier === "professional" ? 5000 : calcTier === "growth" ? 60000 : 120000;
+      else basePrice += calcTier === "professional" ? 5000 : calcTier === "growth" ? 50000 : 100000;
     });
 
     // Discount if multiple channels are selected

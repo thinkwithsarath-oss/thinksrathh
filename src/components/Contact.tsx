@@ -226,15 +226,15 @@ export default function Contact() {
                 <input
                   id="investment-slider"
                   type="range"
-                  min="25000"
+                  min="5000"
                   max="500000"
-                  step="25000"
+                  step="5000"
                   value={monthlyInvestment}
                   onChange={(e) => setMonthlyInvestment(parseInt(e.target.value))}
                   className="w-full h-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                 />
                 <div className="flex justify-between font-mono text-[9px] text-zinc-400 uppercase tracking-wider">
-                  <span>Min (₹25,000)</span>
+                  <span>Min (₹5,000)</span>
                   <span>Mid (₹2,50,000)</span>
                   <span>Enterprise (₹5,00,000+)</span>
                 </div>
