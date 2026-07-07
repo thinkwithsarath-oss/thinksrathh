@@ -122,7 +122,7 @@ export default function App() {
   };
 
   return (
-    <div className="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen selection:bg-emerald-500 selection:text-black transition-colors duration-300">
+    <div className="bg-zinc-950 text-zinc-100 min-h-screen selection:bg-emerald-500 selection:text-black transition-colors duration-300 overflow-x-hidden w-full">
       
       {/* Dynamic SEO, AEO & GEO Metadata & Schema Orchestration */}
       <SEOManager />

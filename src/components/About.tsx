@@ -54,7 +54,7 @@ export default function About() {
   ];
 
   return (
-    <div className="py-28 px-6 md:px-12 max-w-7xl mx-auto space-y-24 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-300">
+    <div className="py-28 px-6 md:px-12 max-w-7xl mx-auto space-y-24 bg-zinc-950 text-zinc-100 transition-colors duration-300">
       
       {/* 1. Header Hero Section */}
       <section className="text-center max-w-4xl mx-auto space-y-6">
@@ -99,11 +99,79 @@ export default function About() {
         </motion.p>
       </section>
 
-      {/* 2. Interactive Spotlight Bio Section with ElectricBorder */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start" id="bio-spotlight">
+      {/* 2. Interactive Spotlight Bio Section with ElectricBorder (Restructured for Perfect Alignment & Spacing) */}
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start" id="bio-spotlight">
         
-        {/* Left column: Brand Philosophy & Quick Contact Grids (Perfect Alignment) */}
-        <div className="lg:col-span-8 space-y-8">
+        {/* Left Column: Cohesive Founder Profile & Linkways Sidebar */}
+        <div className="lg:col-span-5 space-y-8">
+          <div className="flex items-start justify-center w-full">
+            <ProfileCard
+              avatarUrl="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&h=400&q=80"
+              name="Sarath Babu K"
+              title="Founder & Lead Advisor"
+              handle="sarathbabuk"
+              status="Active"
+              contactText="Connect"
+              behindGlowColor="rgba(16, 185, 129, 0.45)"
+              onContactClick={() => {
+                const contactSection = document.getElementById("contact");
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: "smooth" });
+                } else {
+                  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+                }
+              }}
+            />
+          </div>
+
+          {/* Direct Channels */}
+          <div className="p-6.5 bg-zinc-950 text-white rounded-3xl border border-zinc-900 shadow-2xl relative overflow-hidden flex flex-col justify-between">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
+            
+            <div className="space-y-4 relative z-10">
+              <div className="space-y-1">
+                <span className="font-mono text-[9px] text-emerald-400 uppercase tracking-widest">SECURE LINKWAYS</span>
+                <h3 className="font-serif text-xl font-light">Direct Channels</h3>
+              </div>
+              
+              <p className="font-sans text-xs text-zinc-400 leading-relaxed">
+                Connect for private advisory, consulting, speaking, or performance coaching.
+              </p>
+
+              <div className="space-y-3 pt-2">
+                <a 
+                  href="tel:+917094629042" 
+                  className="flex items-center gap-3 p-2.5 rounded-xl bg-zinc-900/60 hover:bg-emerald-500 hover:text-black transition-all duration-300 group text-xs font-mono border border-zinc-900 hover:border-emerald-400"
+                >
+                  <Phone className="w-3.5 h-3.5 text-emerald-400 group-hover:text-black transition-colors" />
+                  <span>+91 7094629042</span>
+                </a>
+
+                <a 
+                  href="mailto:thinkwithsarath@gmail.com" 
+                  className="flex items-center gap-3 p-2.5 rounded-xl bg-zinc-900/60 hover:bg-emerald-500 hover:text-black transition-all duration-300 group text-xs font-mono border border-zinc-900 hover:border-emerald-400"
+                >
+                  <Mail className="w-3.5 h-3.5 text-emerald-400 group-hover:text-black transition-colors" />
+                  <span className="truncate">thinkwithsarath@gmail.com</span>
+                </a>
+
+                <a 
+                  href="https://www.linkedin.com/in/sarathbabuk/" 
+                  target="_blank" 
+                  referrerPolicy="no-referrer"
+                  className="flex items-center gap-3 p-2.5 rounded-xl bg-zinc-900/60 hover:bg-emerald-500 hover:text-black transition-all duration-300 group text-xs font-mono border border-zinc-900 hover:border-emerald-400"
+                >
+                  <Linkedin className="w-3.5 h-3.5 text-emerald-400 group-hover:text-black transition-colors shrink-0" />
+                  <span className="truncate">linkedin.com/in/sarathbabuk/</span>
+                  <ExternalLink className="w-3 ml-auto opacity-40 group-hover:opacity-100 transition-opacity" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Strategic Narrative & Logistics Headquarters */}
+        <div className="lg:col-span-7 space-y-8">
           <ElectricBorder 
             className="p-8 md:p-10 bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200/50 dark:border-zinc-900 shadow-xl rounded-3xl"
             colors={["#10b981", "#3b82f6", "#10b981"]}
@@ -144,112 +212,130 @@ export default function About() {
             </div>
           </ElectricBorder>
 
-          {/* Sub-grid under the brand philosophy to match the height of ProfileCard */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Direct Channels */}
-            <div className="p-6 bg-zinc-950 text-white rounded-3xl border border-zinc-900 shadow-2xl relative overflow-hidden flex flex-col justify-between">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
-              
-              <div className="space-y-4 relative z-10">
-                <div className="space-y-1">
-                  <span className="font-mono text-[9px] text-emerald-400 uppercase tracking-widest">SECURE LINKWAYS</span>
-                  <h3 className="font-serif text-xl font-light">Direct Channels</h3>
+          {/* Operating Headquarters & Availability */}
+          <div className="p-6.5 rounded-3xl bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200/50 dark:border-zinc-900/60 flex flex-col justify-between">
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-mono font-bold shrink-0">
+                  SB
                 </div>
-                
-                <p className="font-sans text-xs text-zinc-400 leading-relaxed">
-                  Connect for private advisory, consulting, speaking, or performance coaching.
-                </p>
+                <div className="space-y-0.5">
+                  <h4 className="font-sans text-sm font-medium text-zinc-900 dark:text-white">Chennai & Erode, IN</h4>
+                  <p className="font-mono text-[9px] text-zinc-500 uppercase tracking-widest">Operating Globally</p>
+                </div>
+              </div>
 
-                <div className="space-y-3 pt-2">
-                  <a 
-                    href="tel:+917094629042" 
-                    className="flex items-center gap-3 p-2.5 rounded-xl bg-zinc-900/60 hover:bg-emerald-500 hover:text-black transition-all duration-300 group text-xs font-mono border border-zinc-900 hover:border-emerald-400"
-                  >
-                    <Phone className="w-3.5 h-3.5 text-emerald-400 group-hover:text-black transition-colors" />
-                    <span>+91 7094629042</span>
-                  </a>
-
-                  <a 
-                    href="mailto:thinkwithsarath@gmail.com" 
-                    className="flex items-center gap-3 p-2.5 rounded-xl bg-zinc-900/60 hover:bg-emerald-500 hover:text-black transition-all duration-300 group text-xs font-mono border border-zinc-900 hover:border-emerald-400"
-                  >
-                    <Mail className="w-3.5 h-3.5 text-emerald-400 group-hover:text-black transition-colors" />
-                    <span className="truncate">thinkwithsarath@gmail.com</span>
-                  </a>
-
-                  <a 
-                    href="https://www.linkedin.com/in/sarathbabuk/" 
-                    target="_blank" 
-                    referrerPolicy="no-referrer"
-                    className="flex items-center gap-3 p-2.5 rounded-xl bg-zinc-900/60 hover:bg-emerald-500 hover:text-black transition-all duration-300 group text-xs font-mono border border-zinc-900 hover:border-emerald-400"
-                  >
-                    <Linkedin className="w-3.5 h-3.5 text-emerald-400 group-hover:text-black transition-colors shrink-0" />
-                    <span className="truncate">linkedin.com/in/sarathbabuk/</span>
-                    <ExternalLink className="w-3 ml-auto opacity-40 group-hover:opacity-100 transition-opacity" />
-                  </a>
+              <div className="space-y-3 pt-2 border-t border-zinc-200/60 dark:border-zinc-800/40">
+                <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  <span>Remote-first collaboration framework</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  <span>Timezone flexibility for EU, US & Asia</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  <span>NDA-protected private audits</span>
                 </div>
               </div>
             </div>
 
-            {/* Operating Headquarters & Availability */}
-            <div className="p-6 rounded-3xl bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200/50 dark:border-zinc-900/60 flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-mono font-bold shrink-0">
-                    SB
-                  </div>
-                  <div className="space-y-0.5">
-                    <h4 className="font-sans text-sm font-medium text-zinc-900 dark:text-white">Chennai & Erode, IN</h4>
-                    <p className="font-mono text-[9px] text-zinc-500 uppercase tracking-widest">Operating Globally</p>
-                  </div>
-                </div>
-
-                <div className="space-y-3 pt-2 border-t border-zinc-200/60 dark:border-zinc-800/40">
-                  <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                    <span>Remote-first collaboration framework</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                    <span>Timezone flexibility for EU, US & Asia</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                    <span>NDA-protected private audits</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="font-mono text-[9px] text-zinc-400 uppercase tracking-wider mt-4">
-                SECURE REMOTE OPERATIONS
-              </div>
+            <div className="font-mono text-[9px] text-zinc-400 uppercase tracking-wider mt-5">
+              SECURE REMOTE OPERATIONS
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Right column: Gorgeous Holographic Founder Profile Card (Standalone Focus) */}
-        <div className="lg:col-span-4 flex items-start justify-center">
-          <ProfileCard
-            avatarUrl="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&h=400&q=80"
-            name="Sarath Babu K"
-            title="Founder & Lead Advisor"
-            handle="sarathbabuk"
-            status="Active"
-            contactText="Connect"
-            behindGlowColor="rgba(16, 185, 129, 0.45)"
-            onContactClick={() => {
-              const contactSection = document.getElementById("contact");
-              if (contactSection) {
-                contactSection.scrollIntoView({ behavior: "smooth" });
-              } else {
-                window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-              }
-            }}
-          />
+      {/* 3. About Founder Section: Premium Editorial Bio & AI Search Marketing Expertise */}
+      <section id="about-founder" className="pt-8 border-t border-zinc-100 dark:border-zinc-900/80">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          {/* Left: Bio Stats / Core Details */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="space-y-2">
+              <span className="font-mono text-xs text-emerald-500 uppercase tracking-widest font-semibold block">
+                FOUNDER'S DOSSIER
+              </span>
+              <h2 className="font-serif text-3.5xl md:text-4xl text-zinc-900 dark:text-white font-normal tracking-tight">
+                About Founder
+              </h2>
+              <p className="font-sans text-sm text-zinc-500 dark:text-zinc-400">
+                Sarath Babu K • Pioneer in AI SEO & Conversational Visibility
+              </p>
+            </div>
+
+            <p className="font-serif text-base text-zinc-600 dark:text-zinc-300 leading-relaxed font-light">
+              Sarath Babu K is a progressive AI digital marketer, mentor, and search consultant. He is committed to helping businesses and professionals navigate the massive paradigm shift of search engine transition into synthetic AI-answer portals.
+            </p>
+
+            <div className="grid grid-cols-2 gap-4 pt-2">
+              <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200/40 dark:border-zinc-900/80">
+                <div className="font-mono text-2xl font-bold text-emerald-500">10M+</div>
+                <p className="font-sans text-[10px] text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mt-1">
+                  Programmatic Impressions
+                </p>
+              </div>
+              <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200/40 dark:border-zinc-900/80">
+                <div className="font-mono text-2xl font-bold text-emerald-500">5+ Yrs</div>
+                <p className="font-sans text-[10px] text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mt-1">
+                  In Search Optimization
+                </p>
+              </div>
+              <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200/40 dark:border-zinc-900/80">
+                <div className="font-mono text-2xl font-bold text-emerald-500">50+</div>
+                <p className="font-sans text-[10px] text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mt-1">
+                  Projects Mentored
+                </p>
+              </div>
+              <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200/40 dark:border-zinc-900/80">
+                <div className="font-mono text-2xl font-bold text-emerald-500">100%</div>
+                <p className="font-sans text-[10px] text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mt-1">
+                  AI-Engine Native
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Immersive AI-driven Digital Marketing Bio */}
+          <div className="lg:col-span-7 space-y-6 bg-zinc-50 dark:bg-zinc-900/10 border border-zinc-200/40 dark:border-zinc-900/80 p-8 rounded-3xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/[0.015] dark:bg-emerald-500/[0.02] rounded-full blur-3xl pointer-events-none" />
+            
+            <h3 className="font-serif text-xl text-zinc-900 dark:text-white font-medium flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-emerald-500" />
+              Specialist in AI-Driven Digital Marketing & Search Systems
+            </h3>
+            
+            <div className="space-y-4 font-serif text-sm md:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed font-light">
+              <p>
+                In a dynamic world where search traffic is shifting from standard query lists to intelligent synthesized responses (such as Google’s AI Overviews, ChatGPT Search, and Perplexity), Sarath Babu K engineers systems to capture this conversational market share. As the founder of <strong>ThinkSarath</strong>, he crafts technical pipelines designed specifically for LLM indexing and discovery.
+              </p>
+              <p>
+                His core methodology encompasses <strong>AEO (Answer Engine Optimization)</strong> and <strong>GEO (Generative Engine Optimization)</strong>. By structuring structured microdata, establishing strong relational topic authority, and utilizing programmatic workflows, he ensures brand narratives are fully visible, cited, and recommended by modern AI search crawlers.
+              </p>
+              <p>
+                With roles including <em>Head of Digital Marketing</em> at Code99 Academy and <em>SEO Specialist</em> for international platforms like LuMay AI, Sarath is recognized for establishing scalable paid-media models and programmatic search networks. His hands-on training frameworks keep industry leaders and aspiring consultants ahead of the modern marketing curve.
+              </p>
+            </div>
+
+            <div className="pt-4 flex flex-wrap gap-2">
+              <span className="font-mono text-[9px] px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/10 uppercase font-semibold">
+                Answer Engine Optimization
+              </span>
+              <span className="font-mono text-[9px] px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/10 uppercase font-semibold">
+                Generative Engine Optimization
+              </span>
+              <span className="font-mono text-[9px] px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/10 uppercase font-semibold">
+                Programmatic SEO
+              </span>
+            </div>
+          </div>
+
         </div>
       </section>
 
-      {/* 3. Core Capability Grid */}
+      {/* 4. Core Capability Grid */}
       <section className="space-y-12">
         <div className="text-center max-w-xl mx-auto space-y-3">
           <span className="font-mono text-[9px] text-emerald-500 uppercase tracking-[0.25em] font-semibold">

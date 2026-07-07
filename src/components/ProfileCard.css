@@ -20,10 +20,11 @@
 .pc-card-wrapper {
   perspective: 1000px;
   position: relative;
-  touch-action: none;
+  touch-action: pan-y;
   width: 100%;
   max-width: 380px;
   margin: 0 auto;
+  --card-opacity: 0;
 }
 
 /* Ambient Behind Glow */
@@ -43,7 +44,8 @@
 }
 
 .pc-card-wrapper:hover,
-.pc-card-wrapper.active {
+.pc-card-wrapper.active,
+.pc-card-wrapper:has(.pc-card-shell.active) {
   --card-opacity: 1;
 }
 

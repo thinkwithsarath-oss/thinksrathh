@@ -20,7 +20,7 @@ export default function Blog() {
 
   if (activePost) {
     return (
-      <div className="py-28 px-6 md:px-12 max-w-7xl mx-auto space-y-12 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-300 animate-fadeIn">
+      <div className="py-28 px-6 md:px-12 max-w-7xl mx-auto space-y-12 bg-zinc-950 text-zinc-100 transition-colors duration-300 animate-fadeIn">
         {/* Back Button */}
         <div className="flex items-center justify-start">
           <button 
@@ -318,7 +318,7 @@ export default function Blog() {
   });
 
   return (
-    <div className="py-28 px-6 md:px-12 max-w-7xl mx-auto space-y-24 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-300">
+    <div className="py-28 px-6 md:px-12 max-w-7xl mx-auto space-y-24 bg-zinc-950 text-zinc-100 transition-colors duration-300">
       
       {/* 1. Header & Intro */}
       <section className="text-center max-w-3xl mx-auto space-y-5">

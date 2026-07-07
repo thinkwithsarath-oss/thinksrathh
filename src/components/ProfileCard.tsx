@@ -195,10 +195,14 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   const handlePointerEnter = useCallback(
     (event: PointerEvent) => {
       const shell = shellRef.current;
+      const wrap = wrapRef.current;
       if (!shell || !tiltEngine) return;
 
       shell.classList.add('active');
       shell.classList.add('entering');
+      if (wrap) {
+        wrap.classList.add('active');
+      }
       if (enterTimerRef.current) window.clearTimeout(enterTimerRef.current);
       enterTimerRef.current = window.setTimeout(() => {
         shell.classList.remove('entering');
@@ -212,6 +216,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
 
   const handlePointerLeave = useCallback(() => {
     const shell = shellRef.current;
+    const wrap = wrapRef.current;
     if (!shell || !tiltEngine) return;
 
     tiltEngine.toCenter();
@@ -221,6 +226,9 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       const settled = Math.hypot(tx - x, ty - y) < 0.6;
       if (settled) {
         shell.classList.remove('active');
+        if (wrap) {
+          wrap.classList.remove('active');
+        }
         leaveRafRef.current = null;
       } else {
         leaveRafRef.current = requestAnimationFrame(checkSettle);

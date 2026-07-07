@@ -31,7 +31,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen bg-white dark:bg-zinc-950 pt-28 md:pt-36 pb-20 overflow-hidden">
+    <section id="hero" className="relative min-h-screen bg-zinc-950 pt-28 md:pt-36 pb-20 overflow-hidden">
       {/* Lightning component from React Bits as premium high-end visual background */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.22] dark:opacity-[0.25]">
         <Lightning 

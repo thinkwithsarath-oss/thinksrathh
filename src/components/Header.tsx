@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, MapPin, Globe, Sparkles, Moon, Sun, Database } from "lucide-react";
+import { Menu, X, MapPin, Globe, Sparkles, Database } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useLanguage } from "../context/LanguageContext";
-import { useTheme } from "../context/ThemeContext";
 import { useNavigation, PageType } from "../context/NavigationContext";
 
 export default function Header() {
@@ -13,7 +12,6 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState("");
 
   const { language, setLanguage, t } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
   const { currentPage, setCurrentPage, isDatabaseModalOpen, setIsDatabaseModalOpen } = useNavigation();
 
   // Track scroll state for glassmorphism and progress bar
@@ -174,16 +172,6 @@ export default function Header() {
               </button>
             </div>
 
-            {/* Persistent Theme Toggle */}
-            <button
-              id="theme-toggle-btn"
-              onClick={toggleTheme}
-              className="p-1.5 rounded-full border border-zinc-200/50 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-zinc-900/40 text-zinc-600 dark:text-zinc-400 hover:text-emerald-500 dark:hover:text-emerald-400 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all cursor-pointer"
-              aria-label="Toggle Theme"
-            >
-              {theme === "dark" ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
-            </button>
-
             <div className="flex flex-col items-end font-mono text-[10px] text-zinc-500 select-none border-l border-zinc-200/40 dark:border-zinc-800/40 pl-5">
               <div className="flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5 text-emerald-500" />
@@ -255,32 +243,24 @@ export default function Header() {
             </div>
  
             <div className="space-y-6 pt-8 border-t border-zinc-100 dark:border-zinc-900 mt-8">
-              {/* Mobile Lang and Theme controls */}
+              {/* Mobile Lang controls */}
               <div className="flex justify-between items-center bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-100 dark:border-zinc-900/80 p-3.5 rounded-2xl">
-                <div className="flex items-center gap-2 text-xs font-mono">
+                <div className="flex items-center gap-2 text-xs font-mono w-full justify-center">
                   <button 
                     id="mobile-lang-btn-en"
                     onClick={() => setLanguage("en")}
-                    className={`px-3 py-1.5 rounded-lg transition-all ${language === "en" ? "bg-emerald-500 text-black font-semibold" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"}`}
+                    className={`px-4 py-2 rounded-xl transition-all ${language === "en" ? "bg-emerald-500 text-black font-semibold" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"}`}
                   >
                     EN
                   </button>
                   <button 
                     id="mobile-lang-btn-ta"
                     onClick={() => setLanguage("ta")}
-                    className={`px-3 py-1.5 rounded-lg transition-all ${language === "ta" ? "bg-emerald-500 text-black font-semibold" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"}`}
+                    className={`px-4 py-2 rounded-xl transition-all ${language === "ta" ? "bg-emerald-500 text-black font-semibold" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"}`}
                   >
                     தமிழ்
                   </button>
                 </div>
-                <button
-                  id="mobile-theme-toggle-btn"
-                  onClick={toggleTheme}
-                  className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center transition-all"
-                  aria-label="Toggle Theme"
-                >
-                  {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                </button>
               </div>
  
               <div className="flex justify-between items-center text-zinc-500 font-mono text-xs">
