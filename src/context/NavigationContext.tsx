@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-export type PageType = "home" | "about" | "services" | "blog" | "faq" | "contact" | "frameworks";
+export type PageType = "home" | "about" | "services" | "blog" | "faq" | "contact" | "frameworks" | "db-connect";
 
 interface NavigationContextType {
   currentPage: PageType;
@@ -19,7 +19,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     const path = window.location.pathname.replace(/^\/|\/$/g, "");
     if (path.startsWith("blog")) return "blog";
     if (path === "service") return "services";
-    const validPages: PageType[] = ["home", "about", "services", "blog", "faq", "contact", "frameworks"];
+    const validPages: PageType[] = ["home", "about", "services", "blog", "faq", "contact", "frameworks", "db-connect"];
     if (validPages.includes(path as PageType)) {
       return path as PageType;
     }
@@ -71,7 +71,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setActiveBlogPostIdState(null);
         return;
       }
-      const validPages: PageType[] = ["home", "about", "services", "blog", "faq", "contact", "frameworks"];
+      const validPages: PageType[] = ["home", "about", "services", "blog", "faq", "contact", "frameworks", "db-connect"];
       if (validPages.includes(path as PageType)) {
         setCurrentPageState(path as PageType);
         setActiveBlogPostIdState(null);

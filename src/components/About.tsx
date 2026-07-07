@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { Briefcase, Calendar, Award, CheckCircle2, User, Linkedin, Mail, Phone, ExternalLink, Globe, Sparkles, Code, Cpu } from "lucide-react";
 import ElectricBorder from "./ElectricBorder";
 import { useLanguage } from "../context/LanguageContext";
+import ProfileCard from "./ProfileCard";
 
 export default function About() {
   const { t, language } = useLanguage();
@@ -101,8 +102,8 @@ export default function About() {
       {/* 2. Interactive Spotlight Bio Section with ElectricBorder */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start" id="bio-spotlight">
         
-        {/* Left column: Electric Border Bio Block */}
-        <div className="lg:col-span-7">
+        {/* Left column: Brand Philosophy & Quick Contact Grids (Perfect Alignment) */}
+        <div className="lg:col-span-8 space-y-8">
           <ElectricBorder 
             className="p-8 md:p-10 bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200/50 dark:border-zinc-900 shadow-xl rounded-3xl"
             colors={["#10b981", "#3b82f6", "#10b981"]}
@@ -142,63 +143,109 @@ export default function About() {
               </div>
             </div>
           </ElectricBorder>
+
+          {/* Sub-grid under the brand philosophy to match the height of ProfileCard */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Direct Channels */}
+            <div className="p-6 bg-zinc-950 text-white rounded-3xl border border-zinc-900 shadow-2xl relative overflow-hidden flex flex-col justify-between">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
+              
+              <div className="space-y-4 relative z-10">
+                <div className="space-y-1">
+                  <span className="font-mono text-[9px] text-emerald-400 uppercase tracking-widest">SECURE LINKWAYS</span>
+                  <h3 className="font-serif text-xl font-light">Direct Channels</h3>
+                </div>
+                
+                <p className="font-sans text-xs text-zinc-400 leading-relaxed">
+                  Connect for private advisory, consulting, speaking, or performance coaching.
+                </p>
+
+                <div className="space-y-3 pt-2">
+                  <a 
+                    href="tel:+917094629042" 
+                    className="flex items-center gap-3 p-2.5 rounded-xl bg-zinc-900/60 hover:bg-emerald-500 hover:text-black transition-all duration-300 group text-xs font-mono border border-zinc-900 hover:border-emerald-400"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-emerald-400 group-hover:text-black transition-colors" />
+                    <span>+91 7094629042</span>
+                  </a>
+
+                  <a 
+                    href="mailto:thinkwithsarath@gmail.com" 
+                    className="flex items-center gap-3 p-2.5 rounded-xl bg-zinc-900/60 hover:bg-emerald-500 hover:text-black transition-all duration-300 group text-xs font-mono border border-zinc-900 hover:border-emerald-400"
+                  >
+                    <Mail className="w-3.5 h-3.5 text-emerald-400 group-hover:text-black transition-colors" />
+                    <span className="truncate">thinkwithsarath@gmail.com</span>
+                  </a>
+
+                  <a 
+                    href="https://www.linkedin.com/in/sarathbabuk/" 
+                    target="_blank" 
+                    referrerPolicy="no-referrer"
+                    className="flex items-center gap-3 p-2.5 rounded-xl bg-zinc-900/60 hover:bg-emerald-500 hover:text-black transition-all duration-300 group text-xs font-mono border border-zinc-900 hover:border-emerald-400"
+                  >
+                    <Linkedin className="w-3.5 h-3.5 text-emerald-400 group-hover:text-black transition-colors shrink-0" />
+                    <span className="truncate">linkedin.com/in/sarathbabuk/</span>
+                    <ExternalLink className="w-3 ml-auto opacity-40 group-hover:opacity-100 transition-opacity" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Operating Headquarters & Availability */}
+            <div className="p-6 rounded-3xl bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200/50 dark:border-zinc-900/60 flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-mono font-bold shrink-0">
+                    SB
+                  </div>
+                  <div className="space-y-0.5">
+                    <h4 className="font-sans text-sm font-medium text-zinc-900 dark:text-white">Chennai & Erode, IN</h4>
+                    <p className="font-mono text-[9px] text-zinc-500 uppercase tracking-widest">Operating Globally</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3 pt-2 border-t border-zinc-200/60 dark:border-zinc-800/40">
+                  <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                    <span>Remote-first collaboration framework</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                    <span>Timezone flexibility for EU, US & Asia</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                    <span>NDA-protected private audits</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="font-mono text-[9px] text-zinc-400 uppercase tracking-wider mt-4">
+                SECURE REMOTE OPERATIONS
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Right column: Card with Quick Contact details & LinkedIn */}
-        <div className="lg:col-span-5 space-y-8">
-          <div className="p-8 bg-zinc-950 text-white rounded-3xl border border-zinc-900 shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-            
-            <div className="space-y-6 relative z-10">
-              <div className="space-y-2">
-                <span className="font-mono text-[9px] text-emerald-400 uppercase tracking-widest">SECURE LINKWAYS</span>
-                <h3 className="font-serif text-3xl font-light">Direct Channels</h3>
-              </div>
-              
-              <p className="font-sans text-sm text-zinc-400 leading-relaxed">
-                Connect directly for private consulting, speaking engagements, or performance coaching. 
-              </p>
-
-              <div className="space-y-4 pt-4 border-t border-zinc-900">
-                <a 
-                  href="tel:+917094629042" 
-                  className="flex items-center gap-3.5 p-3 rounded-xl bg-zinc-900/60 hover:bg-emerald-500 hover:text-black transition-all duration-300 group text-sm font-mono border border-zinc-900 hover:border-emerald-400"
-                >
-                  <Phone className="w-4 h-4 text-emerald-400 group-hover:text-black transition-colors" />
-                  <span>+91 7094629042</span>
-                </a>
-
-                <a 
-                  href="mailto:thinkwithsarath@gmail.com" 
-                  className="flex items-center gap-3.5 p-3 rounded-xl bg-zinc-900/60 hover:bg-emerald-500 hover:text-black transition-all duration-300 group text-sm font-mono border border-zinc-900 hover:border-emerald-400"
-                >
-                  <Mail className="w-4 h-4 text-emerald-400 group-hover:text-black transition-colors" />
-                  <span>thinkwithsarath@gmail.com</span>
-                </a>
-
-                <a 
-                  href="https://www.linkedin.com/in/sarathbabuk/" 
-                  target="_blank" 
-                  referrerPolicy="no-referrer"
-                  className="flex items-center gap-3.5 p-3 rounded-xl bg-zinc-900/60 hover:bg-emerald-500 hover:text-black transition-all duration-300 group text-sm font-mono border border-zinc-900 hover:border-emerald-400"
-                >
-                  <Linkedin className="w-4 h-4 text-emerald-400 group-hover:text-black transition-colors shrink-0" />
-                  <span className="truncate">linkedin.com/in/sarathbabuk/</span>
-                  <ExternalLink className="w-3 h-3 ml-auto opacity-40 group-hover:opacity-100 transition-opacity" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="p-8 rounded-3xl bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200/50 dark:border-zinc-900/60 flex items-center gap-5">
-            <div className="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-mono font-bold shrink-0">
-              SB
-            </div>
-            <div className="space-y-1">
-              <h4 className="font-sans text-sm font-medium text-zinc-900 dark:text-white">Chennai & Erode, IN</h4>
-              <p className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">Operating Globally • Remote Friendly</p>
-            </div>
-          </div>
+        {/* Right column: Gorgeous Holographic Founder Profile Card (Standalone Focus) */}
+        <div className="lg:col-span-4 flex items-start justify-center">
+          <ProfileCard
+            avatarUrl="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&h=400&q=80"
+            name="Sarath Babu K"
+            title="Founder & Lead Advisor"
+            handle="sarathbabuk"
+            status="Active"
+            contactText="Connect"
+            behindGlowColor="rgba(16, 185, 129, 0.45)"
+            onContactClick={() => {
+              const contactSection = document.getElementById("contact");
+              if (contactSection) {
+                contactSection.scrollIntoView({ behavior: "smooth" });
+              } else {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+              }
+            }}
+          />
         </div>
       </section>
 

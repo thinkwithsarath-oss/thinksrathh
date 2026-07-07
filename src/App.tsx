@@ -17,7 +17,7 @@ import ServicesPage from "./components/ServicesPage";
 import Blog from "./components/Blog";
 import FAQ from "./components/FAQ";
 import Frameworks from "./components/Frameworks";
-import DatabaseModal from "./components/DatabaseModal";
+import DatabaseConnectPage from "./components/DatabaseConnectPage";
 import { useNavigation } from "./context/NavigationContext";
 import { TESTIMONIALS } from "./data";
 import { Quote, Sparkles, Shield, BookmarkCheck } from "lucide-react";
@@ -41,6 +41,8 @@ export default function App() {
         return <FAQ />;
       case "contact":
         return <Contact />;
+      case "db-connect":
+        return <DatabaseConnectPage />;
       case "home":
       default:
         return (
@@ -134,9 +136,6 @@ export default function App() {
 
       {/* 8. Minimalist Spacious Footer */}
       <Footer />
-
-      {/* Database Management Modal */}
-      <DatabaseModal />
 
     </div>
   );

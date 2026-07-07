@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { ArrowDown, Sparkles, MapPin, ShieldCheck, ChevronRight } from "lucide-react";
 import Showcase3D from "./Showcase3D";
 import Magnetic from "./Magnetic";
+import Lightning from "./Lightning";
 
 export default function Hero() {
   // Staggered motion presets
@@ -31,6 +32,17 @@ export default function Hero() {
 
   return (
     <section id="hero" className="relative min-h-screen bg-white dark:bg-zinc-950 pt-28 md:pt-36 pb-20 overflow-hidden">
+      {/* Lightning component from React Bits as premium high-end visual background */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.22] dark:opacity-[0.25]">
+        <Lightning 
+          hue={150} 
+          xOffset={0} 
+          speed={0.65} 
+          intensity={1.4} 
+          size={0.65} 
+        />
+      </div>
+
       {/* Structural geometric grid backgrounds (luxury minimalism) */}
       <div className="absolute inset-0 bg-[radial-gradient(#e4e7e6_1px,transparent_1px)] dark:bg-[radial-gradient(#182d27_1px,transparent_1px)] [background-size:32px_32px] opacity-60" />
       

@@ -123,8 +123,8 @@ async function ensureTablesExist(pool: mysql.Pool) {
 
     tablesInitialized = true;
     console.log("Database tables verified and auto-created successfully.");
-  } catch (err) {
-    console.error("Error during automatic table creation:", err);
+  } catch (err: any) {
+    console.warn("Database connection/setup skipped (MySQL offline/unreachable):", err.message || err);
     throw err;
   }
 }
@@ -328,7 +328,7 @@ app.post("/api/contact", async (req, res) => {
         email: inquiry.email,
         phone: inquiry.phone_number,
         message: inquiry.message || `Goal: ${inquiry.goal}. Budget: ${inquiry.budget_tier}. Appointment: ${inquiry.appointment_date} ${inquiry.appointment_time}`
-      }).catch(err => console.error("Failed to insert lead via DatabaseService in /api/contact:", err));
+      }).catch(err => console.warn("Failed to insert lead via DatabaseService in /api/contact:", err.message || err));
     }
     
     return res.json({

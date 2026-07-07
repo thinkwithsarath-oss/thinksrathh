@@ -61,7 +61,7 @@ class DatabaseService {
       console.log("DatabaseService: 'leads' table verified/created successfully.");
       return true;
     } catch (err: any) {
-      console.error("DatabaseService: Failed to verify/create 'leads' table:", err.message);
+      console.warn("DatabaseService: Skipping auto-table setup (MySQL offline/unreachable):", err.message || err);
       return false;
     }
   }

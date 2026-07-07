@@ -170,112 +170,55 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
           
-          {/* Left side: Interactive Estimator and Value Props */}
-          <div className="lg:col-span-7 space-y-10">
+          {/* Left side: Premium Value Props and Advisory Info */}
+          <div className="lg:col-span-7 space-y-12">
             <div className="space-y-4">
-              <span className="font-mono text-[10px] text-emerald-500 uppercase tracking-[0.25em]">Bespoke Audit Simulator</span>
+              <span className="font-mono text-[10px] text-emerald-500 uppercase tracking-[0.25em]">Bespoke Digital Growth Advisory</span>
               <h1 className="font-serif text-4xl md:text-5xl text-zinc-900 dark:text-white font-normal leading-tight">
-                Contact ThinkSarath | Bespoke AI SEO & Digital Marketing Advisory
+                Contact ThinkSarath | Premium AI SEO & Advanced Advisory
               </h1>
               <p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-xl">
-                Select your target growth channels and slide your planned monthly marketing investment to project 
-                organic multipliers designed specifically for the Chennai, South Indian, or Global premium markets.
+                Get in touch with ThinkSarath for advanced, high-performance SEO, AEO, and GEO search consulting designed to elevate premium South Indian and Global brands to absolute industry dominance.
               </p>
             </div>
 
-            {/* Interactive Calculator Panel */}
-            <div className="p-8 rounded-3xl bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200/50 dark:border-zinc-900 space-y-8 shadow-sm">
-              
-              {/* Channel Selector Pills */}
-              <div className="space-y-3">
-                <label className="font-mono text-[10px] text-zinc-400 uppercase tracking-widest block">
-                  Step 1. Choose Channels ({selectedChannels.length} Active)
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {SERVICES.slice(0, 7).map(channel => {
-                    const active = selectedChannels.includes(channel.id);
-                    return (
-                      <button
-                        id={`calc-channel-${channel.id}`}
-                        key={channel.id}
-                        type="button"
-                        onClick={() => toggleChannel(channel.id)}
-                        className={`px-4 py-2 rounded-xl text-xs font-sans tracking-wide transition-all border ${
-                          active
-                            ? "bg-emerald-500 text-black border-emerald-500 font-medium"
-                            : "bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700"
-                        }`}
-                      >
-                        {channel.title.replace("Search Engine ", "SEO ").replace("Answer Engine ", "AEO ").replace("Generative Engine ", "GEO ")}
-                      </button>
-                    );
-                  })}
+            {/* Core Advisory Features */}
+            <div className="space-y-8 pt-4">
+              <div className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800/80 flex items-center justify-center shrink-0">
+                  <Shield className="w-5 h-5 text-emerald-500" />
                 </div>
-              </div>
-
-              {/* Slider Component */}
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <label className="font-mono text-[10px] text-zinc-400 uppercase tracking-widest block">
-                    Step 2. Monthly Growth Investment
-                  </label>
-                  <span className="font-mono text-base font-semibold text-emerald-600 dark:text-emerald-400">
-                    ₹{monthlyInvestment.toLocaleString("en-IN")} / mo
-                  </span>
-                </div>
-                <input
-                  id="investment-slider"
-                  type="range"
-                  min="5000"
-                  max="500000"
-                  step="5000"
-                  value={monthlyInvestment}
-                  onChange={(e) => setMonthlyInvestment(parseInt(e.target.value))}
-                  className="w-full h-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
-                />
-                <div className="flex justify-between font-mono text-[9px] text-zinc-400 uppercase tracking-wider">
-                  <span>Min (₹5,000)</span>
-                  <span>Mid (₹2,50,000)</span>
-                  <span>Enterprise (₹5,00,000+)</span>
-                </div>
-              </div>
-
-              {/* Dynamic projections based on selection */}
-              <div className="border-t border-zinc-200/50 dark:border-zinc-900 pt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
-                
                 <div className="space-y-1.5">
-                  <span className="font-mono text-[9px] text-zinc-400 uppercase">Est. Organic Reach</span>
-                  <p className="font-serif text-3xl font-medium text-zinc-900 dark:text-white">
-                    {outcomes.organicReachMultiplier}×
+                  <h3 className="font-sans text-sm font-semibold text-zinc-900 dark:text-white">Complete Search Optimization</h3>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-lg">
+                    Dominate standard Search Engines (SEO) alongside modern AI systems, Generative Engine Optimization (GEO), and direct Answer Engine conversational results (AEO).
                   </p>
-                  <p className="text-[10px] text-zinc-400 leading-snug">Traffic capture growth expectation.</p>
                 </div>
-
-                <div className="space-y-1.5">
-                  <span className="font-mono text-[9px] text-zinc-400 uppercase">AI Synapse Imp.</span>
-                  <p className="font-serif text-3xl font-medium text-emerald-600 dark:text-emerald-400">
-                    +{outcomes.aiImprMultiplier}
-                  </p>
-                  <p className="text-[10px] text-zinc-400 leading-snug">AEO/GEO conversational citations/mo.</p>
-                </div>
-
-                <div className="space-y-1.5">
-                  <span className="font-mono text-[9px] text-zinc-400 uppercase">Conversion Lift</span>
-                  <p className="font-serif text-3xl font-medium text-zinc-900 dark:text-white">
-                    +{outcomes.estConversionGain}%
-                  </p>
-                  <p className="text-[10px] text-zinc-400 leading-snug">Average revenue-aligned conversion hike.</p>
-                </div>
-
               </div>
 
-              <div className="p-3.5 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-100/30 dark:border-emerald-900/20 text-[11px] text-emerald-800 dark:text-emerald-300 flex gap-2">
-                <Sparkles className="w-4 h-4 shrink-0 mt-0.5" />
-                <p className="leading-relaxed">
-                  These represent modeled local projections. Submit the final details on the right to trigger an custom, manual organic search audit of your domain.
-                </p>
+              <div className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800/80 flex items-center justify-center shrink-0">
+                  <Sparkles className="w-5 h-5 text-emerald-500" />
+                </div>
+                <div className="space-y-1.5">
+                  <h3 className="font-sans text-sm font-semibold text-zinc-900 dark:text-white">Elite Technical Architecture</h3>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-lg">
+                    Build flawless schemas, optimize digital footprints, improve core web vitals, and deploy highly resilient content networks optimized for maximum authority.
+                  </p>
+                </div>
               </div>
 
+              <div className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800/80 flex items-center justify-center shrink-0">
+                  <CheckCircle className="w-5 h-5 text-emerald-500" />
+                </div>
+                <div className="space-y-1.5">
+                  <h3 className="font-sans text-sm font-semibold text-zinc-900 dark:text-white">Sustained Organic Growth</h3>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-lg">
+                    Unlock permanent brand assets through natural compounding traffic cycles. No artificial click injections, just pure revenue-aligned authority growth.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
